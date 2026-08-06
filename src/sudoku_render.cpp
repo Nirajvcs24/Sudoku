@@ -15,7 +15,32 @@ void DrawLines(Vector2 offset, float cellSize){
     }
 }
 
+void DrawCellHighlights(const SudokuGame *game, Vector2 offset , float cellSize){
+    //void DrawRectangle(int posX, int posY, int width, int height, Color color);
+    if(game->selectedRow != -1 && game->selectedColumn != -1){
+        DrawRectangle(
+            (int)(offset.x + (cellSize * game->selectedRow)),
+            (int)(offset.y + (cellSize * game->selectedColumn)),
+            (int)cellSize,
+            (int)cellSize,
+            LIGHTGRAY
+        );
+    }
+}
+
+void DrawCellNumbers(const SudokuGame *game, Vector2 offset, float cellSize, Font font){
+    int fontSize = (int)(cellSize * 0.6f);
+    for(int r = 0 ; r < 9 ; r++){
+        for(int c = 0 ; c < 9 ; c++){
+            Cell cell = game->board[r][c];
+            if(cell.value == 0) continue;
+        }
+    }
+}
+
+//Main Function for Drawing all the lines.
 void DrawBoard(SudokuGame *game, Vector2 gridOffset , float cellSize , Font font){
+    DrawCellHighlights(game,gridOffset,cellSize);
     DrawLines(gridOffset,cellSize);
 }
 

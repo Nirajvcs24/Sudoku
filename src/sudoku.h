@@ -6,6 +6,7 @@
 #include "raylib.h"
 #include <stdbool.h>
 
+//defining all the variables for each cell.
 typedef struct{
     int value;
     int solution;
@@ -13,6 +14,7 @@ typedef struct{
     bool isError;
 }Cell;
 
+//defining all the variables required for the board;
 typedef struct{
     Cell board[9][9];
     int selectedRow;
@@ -30,6 +32,8 @@ void UpdateGame(SudokuGame *game, Vector2 gridOffset , float cellSize);
 
 //Drawing the Board
 void DrawLines(Vector2 gridOffset, float cellSize);
+void DrawCellHighlights(const SudokuGame *game, Vector2 offset , float cellSize);
+void DrawCellNumbers(const SudokuGame *game, Vector2 offset, float cellSize, Font font);
 void DrawBoard(SudokuGame *game, Vector2 gridOffset, float cellSize, Font font);
 
 #endif

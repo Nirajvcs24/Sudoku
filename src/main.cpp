@@ -10,6 +10,12 @@ int main(void)
 
     SetTargetFPS(60);
 
+    //Not Working
+    /*Image icon = LoadImage("Sudoku_Image.jpeg");
+    SetWindowIcon(icon);
+    UnloadImage(icon);*/
+
+
     Vector2 gridOffset = {175.0f , 120.0f};
     float cellSize = 50.0f;
     SudokuGame game;
@@ -18,9 +24,13 @@ int main(void)
 
     while (!WindowShouldClose())    
     {
+
+        UpdateGame(&game,gridOffset,cellSize);
+
         BeginDrawing();
         
         ClearBackground(RAYWHITE);
+
         DrawBoard(&game,gridOffset,cellSize,GetFontDefault());
 
         EndDrawing();
