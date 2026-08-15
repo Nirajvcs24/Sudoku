@@ -33,14 +33,34 @@ void DrawCellNumbers(const SudokuGame *game, Vector2 offset, float cellSize, Fon
     for(int r = 0 ; r < 9 ; r++){
         for(int c = 0 ; c < 9 ; c++){
             Cell cell = game->board[r][c];
-            if(cell.value == 0) continue;
+
+            if(cell.value < 1 || cell.value > 9) continue;
+            Color textColor = BLUE;
+            if(cell.isError)
+                textColor = RED;
+            else if(cell.isGiven)
+                textColor = BLACK;
+            
+            float cellX = (offset.x + ((r + 0.7) * cellSize));
+            float cellY = (offset.y + ((c + 0.5) * cellSize));
+
+            char numStr[2] = { (char)('0' + cell.value), '\0' };
+
+            int textWidth = MeasureText(numStr, fontSize);
+            float textX = cellX + (textWidth - cellSize) / 2.0f;
+            float textY = cellY + (textWidth - fontSize) / 2.0f;
+            //void DrawText(const char *text, int posX, int posY, int fontSize, Color color);
+            DrawText(numStr , textX , textY , fontSize , textColor);
         }
     }
 }
+
+
 
 //Main Function for Drawing all the lines.
 void DrawBoard(SudokuGame *game, Vector2 gridOffset , float cellSize , Font font){
     DrawCellHighlights(game,gridOffset,cellSize);
     DrawLines(gridOffset,cellSize);
+    DrawCellNumbers(game, gridOffset , cellSize, GetFontDefault());
 }
 
