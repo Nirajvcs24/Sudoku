@@ -23,8 +23,32 @@ void DrawCellHighlights(const SudokuGame *game, Vector2 offset , float cellSize)
             (int)(offset.y + (cellSize * game->selectedColumn)),
             (int)cellSize,
             (int)cellSize,
-            LIGHTGRAY
+            DARKGRAY
         );
+    }
+    for(int r = 0 ; r < 9 ; r++){
+        if(game->selectedRow != -1 && game->selectedColumn != -1){
+            if(r == game->selectedRow)  continue;
+            DrawRectangle(
+                (int)(offset.x + (cellSize * r)),
+                (int)(offset.y + (cellSize * game->selectedColumn)),
+                (int)cellSize,
+                (int)cellSize,
+                LIGHTGRAY
+            );
+        }
+    }
+    for(int c = 0 ; c < 9 ; c++){
+        if(c == game->selectedColumn)   continue;
+        if(game->selectedColumn != -1 && game->selectedRow != -1){
+            DrawRectangle(
+                (int)(offset.x + (cellSize * game->selectedRow)),
+                (int)(offset.y + (cellSize * c)),
+                (int)cellSize,
+                (int)cellSize,
+                LIGHTGRAY
+            );
+        }
     }
 }
 

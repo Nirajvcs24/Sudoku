@@ -11,9 +11,9 @@ int main(void)
     SetTargetFPS(60);
 
     //Not Working
-    /*Image icon = LoadImage("Sudoku_Image.jpeg");
+    Image icon = LoadImage("C:/Users/niraj/OneDrive/Desktop/Sudoku/img/Sudoku_Image.png");
     SetWindowIcon(icon);
-    UnloadImage(icon);*/
+    UnloadImage(icon);
 
 
     Vector2 gridOffset = {175.0f , 120.0f};
