@@ -5,6 +5,8 @@
 
 #include "raylib.h"
 #include <stdbool.h>
+#include<time.h>
+#include<stdlib.h>
 
 //defining all the variables for each cell.
 typedef struct{
@@ -23,12 +25,16 @@ typedef struct{
     float timer;
 }SudokuGame;
 
+//int answer[9][9];
+
 //Sudoku_Logic
 void InitGame(SudokuGame *game);
 bool GetCellFromMouse(Vector2 mousePos , Vector2 gridOffset, float cellSize , int *outRow, int *outCol);
 void HandleInput(SudokuGame *game, Vector2 gridOffset, float cellSize);
 bool IsValidPlacement(SudokuGame *game, int row , int col , int number);
 void UpdateGame(SudokuGame *game, Vector2 gridOffset , float cellSize);
+void IdkWhatToCallYet(SudokuGame *game);
+
 
 //Drawing the Board
 void DrawLines(Vector2 gridOffset, float cellSize);
