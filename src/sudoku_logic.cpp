@@ -1,10 +1,15 @@
 #include "raylib.h"
 #include "sudoku.h"
-#include<time.h>
-#include<stdlib.h>
-#include<vector>
-#include<algorithm>
+#include <time.h>
+#include <stdlib.h>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <random>
 
+using namespace std;
+
+//Initializing the game.
 void InitGame(SudokuGame *game){
     game->selectedRow = -1;
     game->selectedColumn = -1;
@@ -17,8 +22,10 @@ void InitGame(SudokuGame *game){
             game->board[r][c].isGiven = false;
         }
     }
+    //Test - To be removed later.
     IdkWhatToCallYet(game);
 }
+
 
 bool IsValidPlacement(SudokuGame *game, int row , int col , int number){
     if(number == 0) return true;
@@ -50,6 +57,8 @@ bool IsValidPlacement(SudokuGame *game, int row , int col , int number){
 
 bool GetCellFromMouse(Vector2 mousePos , Vector2 gridOffset , float cellSize , int *outRow , int *outCol){
     int boardSize = cellSize * 9;
+    //IF condition checks whether mouse has been clicked inside the GRID.
+    //If clicked inside it calculates the row and column that it has been clicked in.
     if(mousePos.x >= gridOffset.x && mousePos.x < gridOffset.x + boardSize && 
         mousePos.y >=gridOffset.y && mousePos.y < gridOffset.y + boardSize){
         *outRow = (int)((mousePos.x - gridOffset.x)/cellSize);
@@ -67,14 +76,14 @@ void HandleInput(SudokuGame *game, Vector2 gridOffset , float cellSize){
             game->selectedColumn = -1;
         }
     }
-
+    //Checks if a Row and Column has been selected.
     if(game->selectedRow != -1 && game->selectedColumn !=-1){
         Cell *selectedCell = &game->board[game->selectedRow][game->selectedColumn];
-        if(!selectedCell->isGiven){
+        if(!selectedCell->isGiven){ //Checking if the number is present or not.
             int key = GetKeyPressed();
-            if(key >= KEY_ONE && key <= KEY_NINE){
+            if(key >= KEY_ONE && key <= KEY_NINE){ //Making sure the clicked number is between 1 and 9.
                 selectedCell->value = key - KEY_ONE + 1;
-                if(!IsValidPlacement(game , game->selectedRow , game->selectedColumn , selectedCell->value)){
+                if(!IsValidPlacement(game , game->selectedRow , game->selectedColumn , selectedCell->value)){  
                     selectedCell->isError = true;
                 }
                 else
@@ -94,24 +103,39 @@ void UpdateGame(SudokuGame *game, Vector2 gridOffset , float cellSize){
     HandleInput(game,gridOffset,cellSize);
 }
 
+
+//The name is temporary, needs to be changed.
+//need to change the arguments from game to the answer array so the answer array can store the solution.
+//Then compare the answer array with the entered numbers.
+//Still need to implement a way to randomize the .isgiven part.
+//One method im thinking is to use a random number generator to generate how many numbers are generated.
+//then randomize the the row and column, everytime it picks i reduce the number.
 void IdkWhatToCallYet(SudokuGame *game){
-    //Using multiple loops to make it completely random instead of the same configuration for each diagonal 3x3 box
-    //Works mostly, need to find a way to fill all the boxes.
-    //Problem is that the same number is generating hence skipping few cells.
-    //One fix can be that we can loop through 1 to 9 and randomize the row and cell.
-    //Didnt Work.
-    int startRow, startCol,element;
+    //Implementing DiagonalBoxSeeding method to build a solution.
+    //In this method the diagonal 3x3 boxes are filled with numbers randomly from 1-9.
+    //A solution is then built on this fundamental and stored in an array which then later is used to compare.
+
+    vector<int> numbers(9);
+    iota(numbers.begin(),numbers.end(),1);
+
+
+    int startRow, startCol;
+
+    //Initializing the random shuffler.
+    std::random_device rd;
+    std::mt19937 g(rd());
+
     //For the first Box
     startRow = (0 * 3)/3;
     startCol = (0 * 3)/3;
+    
+    int i = 0;
 
-    std::vector<int> numbers;
+    shuffle(numbers.begin(), numbers.end(), g);
 
     for(int r=startRow ; r < startRow + 3 ; r++){
         for(int c = startCol ; c < startCol + 3 ; c++){
-            element = (rand() % 10) + 1;
-            if(IsValidPlacement(game, r , c , element) && element != 0)
-                game->board[r][c].value = element;
+            game->board[r][c].value = numbers[i++];
         }
     }
 
@@ -120,11 +144,12 @@ void IdkWhatToCallYet(SudokuGame *game){
     startRow = (3 * 3)/3;
     startCol = (3 * 3)/3;
 
+    i = 0;
+    shuffle(numbers.begin(), numbers.end(), g);
+
     for(int r=startRow ; r < startRow + 3 ; r++){
         for(int c = startCol ; c < startCol + 3 ; c++){
-            element = (rand() % 10) + 1;
-            if(IsValidPlacement(game, r , c , element))
-                game->board[r][c].value = element;
+            game->board[r][c].value = numbers[i++];
         }
     }
 
@@ -132,13 +157,12 @@ void IdkWhatToCallYet(SudokuGame *game){
     startRow = (6 * 3)/3;
     startCol = (6 * 3)/3;
 
+    i = 0;
+    shuffle(numbers.begin(), numbers.end(), g);
+
     for(int r=startRow ; r < startRow + 3 ; r++){
         for(int c = startCol ; c < startCol + 3 ; c++){
-            element = (rand() % 10) + 1;
-            if(IsValidPlacement(game, r , c , element))
-                game->board[r][c].value = element;
+            game->board[r][c].value = numbers[i++];
         }
     }
 }
-
-
