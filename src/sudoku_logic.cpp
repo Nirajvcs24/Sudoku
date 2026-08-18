@@ -92,8 +92,11 @@ void HandleInput(SudokuGame *game, Vector2 gridOffset , float cellSize){
             else if(key == KEY_BACKSPACE || key == KEY_DELETE){
                 selectedCell->value = 0;
             }
-
         }
+    }
+    if(IsKeyPressed(KEY_SPACE)){
+        if(SolveSudoku(game))
+            game->isComplete = true;
     }
 }
 
@@ -165,4 +168,43 @@ void IdkWhatToCallYet(SudokuGame *game){
             game->board[r][c].value = numbers[i++];
         }
     }
+}
+
+//Used for finding an Empty cell for the Backtracking Function.
+bool FindEmptyCell(SudokuGame *game, int *outRow, int *outCol){
+    for(int r = 0 ; r < 9 ; r++){
+        for(int c = 0 ; c < 9 ; c++){
+            if(game->board[r][c].value == 0){
+                *outRow = r;
+                *outCol = c;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+//This is the Backtracking function.
+bool SolveSudoku(SudokuGame *game){
+    int row , col;
+    //Finds if there is an empty cell. If no returns true.
+    //BASE CASE
+    if(!FindEmptyCell(game, &row, &col))
+        return true;
+    //Iterates through the number 1 to 9 and checking if the number fits there.
+    //If not it backtracks and checks with a different number.
+    for(int num = 1 ; num <= 9 ; num++){
+        if(IsValidPlacement(game,row,col,num)){
+            game->board[row][col].value = num;
+        
+
+        if(SolveSudoku(game))
+            return true;
+        //This is resetting the value to 0 in case it fails.
+        game->board[row][col].value = 0;
+        }
+    }
+    //Triggers backtracking.
+    return false;
 }

@@ -34,6 +34,8 @@ void HandleInput(SudokuGame *game, Vector2 gridOffset, float cellSize);
 bool IsValidPlacement(SudokuGame *game, int row , int col , int number);
 void UpdateGame(SudokuGame *game, Vector2 gridOffset , float cellSize);
 void IdkWhatToCallYet(SudokuGame *game);
+bool FindEmptyCell(SudokuGame *game, int *outRow, int *outColumn);
+bool SolveSudoku(SudokuGame *game);
 
 
 //Drawing the Board
