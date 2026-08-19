@@ -6,8 +6,11 @@
 #include <algorithm>
 #include <numeric>
 #include <random>
+#include <iostream>
 
 using namespace std;
+
+int answer[9][9];
 
 //Initializing the game.
 void InitGame(SudokuGame *game){
@@ -24,6 +27,9 @@ void InitGame(SudokuGame *game){
     }
     //Test - To be removed later.
     IdkWhatToCallYet(game);
+    SolveSudoku(game);
+    TempFunc(game);
+    //PlaceGivenNumbers(game);
 }
 
 
@@ -197,7 +203,6 @@ bool SolveSudoku(SudokuGame *game){
     for(int num = 1 ; num <= 9 ; num++){
         if(IsValidPlacement(game,row,col,num)){
             game->board[row][col].value = num;
-        
 
         if(SolveSudoku(game))
             return true;
@@ -207,4 +212,40 @@ bool SolveSudoku(SudokuGame *game){
     }
     //Triggers backtracking.
     return false;
+}
+
+//Temporary Name for this function
+/*void PlaceGivenNumbers(SudokuGame *game){
+    int numberOfGiven = 17 + (rand() % 15);
+    int row,col;
+    while(numberOfGiven > 0){
+        row = rand() % 9;
+        col = rand() % 9;
+        if(!game->board[row][col].isGiven){
+            game->board[row][col].isGiven = true;
+            numberOfGiven--;
+        }
+    } 
+}*/
+
+void TempFunc(SudokuGame *game){
+    int MaxNumToRemove = 39;
+    int row,col;
+    while(MaxNumToRemove > 0){
+        row = rand() % 9;
+        col = rand() % 9;
+        if(game->board[row][col].value != 0){
+            game->board[row][col].value = 0;
+            answer[row][col] = 0;
+        }
+        MaxNumToRemove--;
+    }
+
+    //Make remaining given;
+    for(int r = 0 ; r < 9 ; r++){
+        for(int c = 0 ; c < 9 ; c++){
+            if(game->board[r][c].value != 0)
+                game->board[r][c].isGiven = true;
+        }
+    }
 }
