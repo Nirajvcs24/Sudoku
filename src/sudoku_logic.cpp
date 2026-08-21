@@ -229,7 +229,7 @@ bool SolveSudoku(SudokuGame *game){
 }*/
 
 void TempFunc(SudokuGame *game){
-    int MaxNumToRemove = 39;
+    int MaxNumToRemove = 35 + (rand() % 15);
     int row,col;
     while(MaxNumToRemove > 0){
         row = rand() % 9;
