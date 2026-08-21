@@ -86,5 +86,25 @@ void DrawBoard(SudokuGame *game, Vector2 gridOffset , float cellSize , Font font
     DrawCellHighlights(game,gridOffset,cellSize);
     DrawLines(gridOffset,cellSize);
     DrawCellNumbers(game, gridOffset , cellSize, GetFontDefault());
+    Buttons(game , (Rectangle){100 , 650 , 40 , 60});
 }
 
+
+// bool CheckCollisionPointRec(Vector2 point, Rectangle rec);
+// Rectangle .. = {posx , posy , width , height}
+void Buttons(SudokuGame *game, Rectangle rect){
+    Color btnColor = LIGHTGRAY;
+    bool btnClicked = false;
+    Vector2 mousepos= GetMousePosition();
+    if(CheckCollisionPointRec(mousepos , rect)){
+        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            btnColor = BLACK;
+        }
+        if(IsMouseButtonReleased(MOUSE_BUTTON_LEFT)){
+            btnClicked = true;
+        }
+        if(btnClicked)
+            btnClicked = false;
+    }
+    DrawRectangleRec(rect, btnColor);
+}

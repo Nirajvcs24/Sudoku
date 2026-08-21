@@ -45,5 +45,7 @@ void DrawLines(Vector2 gridOffset, float cellSize);
 void DrawCellHighlights(const SudokuGame *game, Vector2 offset , float cellSize);
 void DrawCellNumbers(const SudokuGame *game, Vector2 offset, float cellSize, Font font);
 void DrawBoard(SudokuGame *game, Vector2 gridOffset, float cellSize, Font font);
+void Buttons(SudokuGame *game , Rectangle rect);
+
 
 #endif
